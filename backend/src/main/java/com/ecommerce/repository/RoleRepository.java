@@ -1,0 +1,18 @@
+package com.ecommerce.repository;
+
+import com.ecommerce.entity.ERole;
+import com.ecommerce.entity.Role;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.Optional;
+
+/**
+ * Repository pour les opérations sur les rôles
+ */
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Long> {
+    
+    Optional<Role> findByName(ERole name);
+    
+    boolean existsByName(ERole name);
+}

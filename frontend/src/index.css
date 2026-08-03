@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-base-content antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-base-200;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-base-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-base-content/20;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply btn bg-primary hover:bg-primary/90 text-white border-primary;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-secondary hover:bg-secondary/90 text-white border-secondary;
+  }
+
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+  }
+
+  .product-image-zoom {
+    @apply transition-transform duration-300 hover:scale-110;
+  }
+
+  .section-title {
+    @apply text-3xl font-display font-bold text-center mb-8;
+  }
+
+  .badge-sale {
+    @apply badge badge-error text-white font-semibold;
+  }
+
+  .badge-new {
+    @apply badge badge-primary text-white font-semibold;
+  }
+
+  .input-bordered {
+    @apply input input-bordered w-full focus:border-primary focus:outline-none;
+  }
+
+  .card-bordered {
+    @apply border border-base-200 rounded-xl overflow-hidden;
+  }
+
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary/70;
+  }
+
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-secondary to-secondary/70;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
