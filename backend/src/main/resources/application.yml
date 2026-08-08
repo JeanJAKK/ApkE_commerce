@@ -1,7 +1,7 @@
 spring:
   application:
     name: ecommerce-backend
-  
+
   datasource:
     url: ${DB_URL:jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ecommerce}}
     username: ${DB_USERNAME:postgres}
@@ -13,7 +13,7 @@ spring:
       connection-timeout: 30000
       idle-timeout: 600000
       max-lifetime: 1800000
-  
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -24,18 +24,16 @@ spring:
         format_sql: true
         use_sql_comments: true
     open-in-view: false
-  
+
   servlet:
     multipart:
       enabled: true
       max-file-size: 10MB
       max-request-size: 20MB
-  
+
   cache:
-    type: redis
-    redis:
-      time-to-live: 3600000
-  
+    type: simple
+
   mail:
     host: ${MAIL_HOST:smtp.gmail.com}
     port: ${MAIL_PORT:587}
@@ -71,7 +69,7 @@ app:
   base-url: ${APP_BASE_URL:http://localhost:5173}
   admin-email: ${ADMIN_EMAIL:admin@example.com}
   admin-password: ${ADMIN_PASSWORD:admin123}
-  
+
 # Logging
 logging:
   level:
