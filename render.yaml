@@ -1,0 +1,17 @@
+# render.yaml
+services:
+- type: web
+name: ecommerce-api
+env: java
+region: frankfurt
+plan: free
+buildCommand: ./mvnw package -DskipTests
+startCommand: java -jar target/ecommerce-backend-1.0.0.jar
+healthCheckPath: /actuator/health
+envVars:
+- key: DATABASE_URL
+sync: false
+- key: JWT_SECRET
+generateValue: true
+- key: NODE_VERSION
+value: 18
