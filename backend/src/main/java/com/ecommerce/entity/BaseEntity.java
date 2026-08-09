@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
  * Fournit les champs communs: id, createdAt, updatedAt
  */
 @MappedSuperclass
+@SuperBuilder
 @Getter
 @Setter
 @NoArgsConstructor

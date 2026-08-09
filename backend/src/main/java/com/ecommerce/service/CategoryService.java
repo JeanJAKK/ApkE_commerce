@@ -160,8 +160,9 @@ public class CategoryService {
     @Transactional
     public void reorder(List<Long> categoryIds) {
         for (int i = 0; i < categoryIds.size(); i++) {
+            final int index = i;
             Category category = categoryRepository.findById(categoryIds.get(i))
-                .orElseThrow(() -> new ResourceNotFoundException("Catégorie", "id", categoryIds.get(i)));
+                .orElseThrow(() -> new ResourceNotFoundException("Catégorie", "id", categoryIds.get(index)));
             category.setPosition(i + 1);
             categoryRepository.save(category);
         }

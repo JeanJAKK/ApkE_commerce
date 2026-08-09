@@ -33,8 +33,14 @@ public class JwtTokenProvider {
 
     @PostConstruct
     public void init() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
-        if (keyBytes.length < 32) {
+        byte[] keyBytes;
+        try {
+            keyBytes = Decoders.BASE64.decode(jwtSecret);
+            if (keyBytes.length < 32) {
+                keyBytes = jwtSecret.getBytes();
+            }
+        } catch (Exception e) {
+            // jwtSecret n'est pas du Base64 valide : on l'utilise comme texte brut
             keyBytes = jwtSecret.getBytes();
         }
         this.key = Keys.hmacShaKeyFor(keyBytes);

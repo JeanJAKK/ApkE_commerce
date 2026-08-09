@@ -156,7 +156,7 @@ public class AuthService {
     @Transactional
     public void resetPassword(ResetPasswordRequest request) {
         User user = userRepository.findByResetToken(request.getToken())
-            .orElseThrow(new BadRequestException("Token invalide ou expiré"));
+            .orElseThrow(() -> new BadRequestException("Token invalide ou expiré"));
 
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         user.setResetToken(null);

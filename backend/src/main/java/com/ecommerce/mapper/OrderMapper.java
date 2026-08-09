@@ -49,8 +49,7 @@ public interface OrderMapper {
 
     OrderItemResponse mapOrderItem(com.ecommerce.entity.OrderItem item);
 
-    @Mapping(target = "order", ignore = true)
-    @Mapping(target = "product", ignore = true)
+
     @Mapping(target = "productName", expression = "java(item.getProduct() != null ? item.getProduct().getName() : item.getProductName())")
     @Mapping(target = "productImage", expression = "java(getProductImage(item))")
     OrderItemResponse toItemResponse(com.ecommerce.entity.OrderItem item);

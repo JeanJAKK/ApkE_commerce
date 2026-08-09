@@ -43,6 +43,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r FROM Review r WHERE r.visible = true ORDER BY r.createdAt DESC")
     Page<Review> findRecentReviews(Pageable pageable);
     
-    @Query("SELECT r FROM Review r WHERE r.verified = true AND r.visible = true ORDER BY r.helpfulVotes.size DESC")
+    @Query("SELECT r FROM Review r WHERE r.verified = true AND r.visible = true ORDER BY SIZE(r.helpfulVotes) DESC")
     List<Review> findMostHelpfulReviews(Pageable pageable);
 }
