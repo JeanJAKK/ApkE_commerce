@@ -6,7 +6,7 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     @apply font-sans text-base-content antialiased;
   }
@@ -32,7 +32,7 @@
   .btn-primary {
     @apply btn bg-primary hover:bg-primary/90 text-white border-primary;
   }
-  
+
   .btn-secondary {
     @apply btn bg-secondary hover:bg-secondary/90 text-white border-secondary;
   }
@@ -57,7 +57,7 @@
     @apply badge badge-primary text-white font-semibold;
   }
 
-  .input-bordered {
+  .form-input {
     @apply input input-bordered w-full focus:border-primary focus:outline-none;
   }
 

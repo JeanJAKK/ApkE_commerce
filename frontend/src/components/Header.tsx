@@ -1,14 +1,23 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Search, ShoppingCart, User, Heart, Menu, X, Sun, Moon } from 'lucide-react';
-import { useCartStore } from '@/context/cartStore';
-import { useAuthStore } from '@/context/authStore';
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Search,
+  ShoppingCart,
+  User,
+  Heart,
+  Menu,
+  X,
+  Sun,
+  Moon,
+} from "lucide-react";
+import { useCartStore } from "@/context/cartStore";
+import { useAuthStore } from "@/context/authStore";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const { items, openCart } = useCartStore();
@@ -17,18 +26,18 @@ const Header = () => {
   const cartItemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme === 'dark') {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
       setIsDarkMode(true);
-      document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.setAttribute("data-theme", "dark");
     }
   }, []);
 
   const toggleTheme = () => {
-    const newTheme = isDarkMode ? 'light' : 'dark';
+    const newTheme = isDarkMode ? "light" : "dark";
     setIsDarkMode(!isDarkMode);
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
   };
 
   const handleSearch = (e: React.FormEvent) => {
@@ -36,13 +45,13 @@ const Header = () => {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setIsSearchOpen(false);
-      setSearchQuery('');
+      setSearchQuery("");
     }
   };
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -56,42 +65,56 @@ const Header = () => {
 
       {/* Main header */}
       <div className="container mx-auto px-4">
-        <div className="navbar py-4">
+        <div className="flex items-center justify-between py-4 gap-4">
           {/* Logo */}
-          <div className="navbar-start">
-            <Link to="/" className="text-2xl font-display font-bold text-primary">
+          <div className="flex-shrink-0">
+            <Link
+              to="/"
+              className="text-2xl font-display font-bold text-primary"
+            >
               Ma Boutique
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1 gap-2">
-              <li><Link to="/" className="font-medium">Accueil</Link></li>
+          <div className="hidden lg:flex flex-shrink-0">
+            <ul className="menu menu-horizontal px-1 gap-4">
+              <li>
+                <Link to="/" className="font-medium">
+                  Accueil
+                </Link>
+              </li>
               <li className="dropdown dropdown-hover">
                 <details>
                   <summary className="font-medium">Catégories</summary>
                   <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                    <li><Link to="/category/electronique">Électronique</Link></li>
-                    <li><Link to="/category/vetements">Vêtements</Link></li>
-                    <li><Link to="/category/maison">Maison</Link></li>
-                    <li><Link to="/category/beaute">Beauté</Link></li>
+                    <li>
+                      <Link to="/category/electronique">Électronique</Link>
+                    </li>
+                    <li>
+                      <Link to="/category/vetements">Vêtements</Link>
+                    </li>
+                    <li>
+                      <Link to="/category/maison">Maison</Link>
+                    </li>
+                    <li>
+                      <Link to="/category/beaute">Beauté</Link>
+                    </li>
                   </ul>
                 </details>
               </li>
-              <li><Link to="/search?onSale=true" className="font-medium text-error">Promotions</Link></li>
             </ul>
           </div>
 
           {/* Right actions */}
-          <div className="navbar-end gap-2">
+          <div className="flex items-center gap-2 flex-shrink-0">
             {/* Search */}
-            <div className="hidden md:block">
+            <div className="hidden xl:block">
               <form onSubmit={handleSearch} className="join">
                 <input
                   type="text"
                   placeholder="Rechercher..."
-                  className="input input-bordered join-item w-40 lg:w-64"
+                  className="input input-bordered join-item w-40 lg:w-56"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -101,9 +124,9 @@ const Header = () => {
               </form>
             </div>
 
-            {/* Mobile search button */}
+            {/* Mobile/tablet search button */}
             <button
-              className="btn btn-ghost btn-circle md:hidden"
+              className="btn btn-ghost btn-circle xl:hidden"
               onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <Search className="w-5 h-5" />
@@ -111,12 +134,19 @@ const Header = () => {
 
             {/* Theme toggle */}
             <button className="btn btn-ghost btn-circle" onClick={toggleTheme}>
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isDarkMode ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
             </button>
 
             {/* Favorites */}
             {isAuthenticated && (
-              <Link to="/favorites" className="btn btn-ghost btn-circle hidden md:flex">
+              <Link
+                to="/favorites"
+                className="btn btn-ghost btn-circle hidden md:flex"
+              >
                 <Heart className="w-5 h-5" />
               </Link>
             )}
@@ -129,19 +159,37 @@ const Header = () => {
                     <User className="w-5 h-5" />
                   </div>
                 </label>
-                <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                <ul
+                  tabIndex={0}
+                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+                >
                   <li className="menu-title">
-                    <span>{user?.fullName || 'Utilisateur'}</span>
+                    <span>{user?.fullName || "Utilisateur"}</span>
                   </li>
-                  <li><Link to="/profile">Mon Profil</Link></li>
-                  <li><Link to="/orders">Mes Commandes</Link></li>
+                  <li>
+                    <Link to="/profile">Mon Profil</Link>
+                  </li>
+                  <li>
+                    <Link to="/orders">Mes Commandes</Link>
+                  </li>
                   {isAuthenticated && (
-                    <li><Link to="/favorites">Mes Favoris</Link></li>
+                    <li>
+                      <Link to="/favorites">Mes Favoris</Link>
+                    </li>
                   )}
                   {isAdmin && (
-                    <li><Link to="/admin/dashboard" className="text-primary font-semibold">Dashboard Admin</Link></li>
+                    <li>
+                      <Link
+                        to="/admin/dashboard"
+                        className="text-primary font-semibold"
+                      >
+                        Dashboard Admin
+                      </Link>
+                    </li>
                   )}
-                  <li><button onClick={handleLogout}>Déconnexion</button></li>
+                  <li>
+                    <button onClick={handleLogout}>Déconnexion</button>
+                  </li>
                 </ul>
               </div>
             ) : (
@@ -168,14 +216,18 @@ const Header = () => {
               className="btn btn-ghost lg:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMenuOpen ? (
+                <X className="w-6 h-6" />
+              ) : (
+                <Menu className="w-6 h-6" />
+              )}
             </button>
           </div>
         </div>
 
         {/* Mobile search bar */}
         {isSearchOpen && (
-          <div className="pb-4 md:hidden animate-slide-down">
+          <div className="pb-4 xl:hidden animate-slide-down">
             <form onSubmit={handleSearch} className="join w-full">
               <input
                 type="text"
@@ -195,20 +247,57 @@ const Header = () => {
         {isMenuOpen && (
           <div className="lg:hidden pb-4 animate-slide-down">
             <ul className="menu">
-              <li><Link to="/" onClick={() => setIsMenuOpen(false)}>Accueil</Link></li>
+              <li>
+                <Link to="/" onClick={() => setIsMenuOpen(false)}>
+                  Accueil
+                </Link>
+              </li>
               <li>
                 <details>
                   <summary>Catégories</summary>
                   <ul>
-                    <li><Link to="/category/electronique" onClick={() => setIsMenuOpen(false)}>Électronique</Link></li>
-                    <li><Link to="/category/vetements" onClick={() => setIsMenuOpen(false)}>Vêtements</Link></li>
-                    <li><Link to="/category/maison" onClick={() => setIsMenuOpen(false)}>Maison</Link></li>
-                    <li><Link to="/category/beaute" onClick={() => setIsMenuOpen(false)}>Beauté</Link></li>
+                    <li>
+                      <Link
+                        to="/category/electronique"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Électronique
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/category/vetements"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Vêtements
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/category/maison"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Maison
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/category/beaute"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Beauté
+                      </Link>
+                    </li>
                   </ul>
                 </details>
               </li>
-              <li><Link to="/search?onSale=true" onClick={() => setIsMenuOpen(false)} className="text-error">Promotions</Link></li>
-              {isAuthenticated && <li><Link to="/favorites" onClick={() => setIsMenuOpen(false)}>Favoris</Link></li>}
+              {isAuthenticated && (
+                <li>
+                  <Link to="/favorites" onClick={() => setIsMenuOpen(false)}>
+                    Favoris
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
         )}
