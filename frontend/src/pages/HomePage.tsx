@@ -24,15 +24,13 @@ const HomePage = () => {
     queryFn: () => productService.getNewArrivals(4),
   });
 
-  // Bloc de produits en promotion / bonus : onSaleProducts sert à afficher uniquement
-  // les articles actuellement soldés ou mis en avant avec une réduction.
-  // Ces données sont ensuite injectées dans la section "Promotions" de la page d'accueil.
+  // Récupérer les produits en promotion
   const { data: onSaleProducts } = useQuery({
     queryKey: ["products", "onSale"],
     queryFn: () => productService.getOnSale(4),
   });
 
-  // Récupérer les catégories pour afficher les rubriques principales du catalogue.
+  // Récupérer les catégories
   const { data: categories } = useQuery({
     queryKey: ["categories", "main"],
     queryFn: () => categoryService.getMain(),
@@ -59,7 +57,6 @@ const HomePage = () => {
                   Boutique maintenant
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
-                {/* CTA principal vers les offres actives : redirige vers le catalogue filtré sur les promos. */}
                 <Link
                   to="/search?onSale=true"
                   className="btn btn-outline btn-lg"
@@ -73,7 +70,7 @@ const HomePage = () => {
                 <div className="w-full aspect-square lg:aspect-[4/3] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl flex items-center justify-center">
                   <span className="text-9xl">🛍️</span>
                 </div>
-                {/* Badge de bonus visuel : attire l'attention sur la réduction immédiate du hero banner. */}
+                {/* Badge */}
                 <div className="absolute -top-4 -right-4 bg-error text-white px-4 py-2 rounded-full font-bold shadow-lg animate-bounce">
                   -30% OFF
                 </div>
@@ -182,10 +179,25 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Promotions Banner
-        Bloc marketing dédié aux offres de bonus : il met en avant une réduction importante
-        et oriente clairement l'utilisateur vers les produits en promo filtrés.
-      */}
+      {/* Products on sale */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-display font-bold">Promotions</h2>
+            <Link to="/search?onSale=true" className="btn btn-ghost">
+              Voir tout
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {onSaleProducts?.data?.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Promotions Banner */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-error to-error/70 rounded-3xl p-8 lg:p-12 text-white">
@@ -200,7 +212,6 @@ const HomePage = () => {
                 Ne manquez pas nos offres exceptionnelles. Profitez-en
                 maintenant!
               </p>
-              {/* CTA de conversion : mène vers la recherche des produits en promotion. */}
               <Link to="/search?onSale=true" className="btn btn-warning btn-lg">
                 Découvrir les offres
                 <ArrowRight className="w-5 h-5 ml-2" />
