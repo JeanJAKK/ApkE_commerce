@@ -1,31 +1,40 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Truck, Shield, Headphones, CreditCard } from 'lucide-react';
-import ProductCard from '@/components/ProductCard';
-import { useQuery } from '@tanstack/react-query';
-import { productService, categoryService } from '@/services/productService';
+import { Link } from "react-router-dom";
+import {
+  ArrowRight,
+  Star,
+  Truck,
+  Shield,
+  Headphones,
+  CreditCard,
+} from "lucide-react";
+import ProductCard from "@/components/ProductCard";
+import { useQuery } from "@tanstack/react-query";
+import { productService, categoryService } from "@/services/productService";
 
 const HomePage = () => {
   // Récupérer les produits vedettes
   const { data: featuredProducts } = useQuery({
-    queryKey: ['products', 'featured'],
+    queryKey: ["products", "featured"],
     queryFn: () => productService.getFeatured(8),
   });
 
   // Récupérer les nouveautés
   const { data: newArrivals } = useQuery({
-    queryKey: ['products', 'newArrivals'],
+    queryKey: ["products", "newArrivals"],
     queryFn: () => productService.getNewArrivals(4),
   });
 
-  // Récupérer les produits en promotion
+  // Bloc de produits en promotion / bonus : onSaleProducts sert à afficher uniquement
+  // les articles actuellement soldés ou mis en avant avec une réduction.
+  // Ces données sont ensuite injectées dans la section "Promotions" de la page d'accueil.
   const { data: onSaleProducts } = useQuery({
-    queryKey: ['products', 'onSale'],
+    queryKey: ["products", "onSale"],
     queryFn: () => productService.getOnSale(4),
   });
 
-  // Récupérer les catégories
+  // Récupérer les catégories pour afficher les rubriques principales du catalogue.
   const { data: categories } = useQuery({
-    queryKey: ['categories', 'main'],
+    queryKey: ["categories", "main"],
     queryFn: () => categoryService.getMain(),
   });
 
@@ -37,17 +46,24 @@ const HomePage = () => {
           <div className="flex flex-col lg:flex-row items-center gap-12">
             <div className="flex-1 text-center lg:text-left">
               <h1 className="text-4xl lg:text-6xl font-display font-bold mb-6 animate-fade-in">
-                Découvrez des <span className="text-primary">produits incroyables</span> à des prix imbattables
+                Découvrez des{" "}
+                <span className="text-primary">produits incroyables</span> à des
+                prix imbattables
               </h1>
               <p className="text-lg text-base-content/70 mb-8 max-w-xl mx-auto lg:mx-0 animate-slide-up">
-                Votre destination shopping en ligne. Qualité, variety et service client exceptionnel.
+                Votre destination shopping en ligne. Qualité, variety et service
+                client exceptionnel.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Link to="/search" className="btn btn-primary btn-lg">
                   Boutique maintenant
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
-                <Link to="/search?onSale=true" className="btn btn-outline btn-lg">
+                {/* CTA principal vers les offres actives : redirige vers le catalogue filtré sur les promos. */}
+                <Link
+                  to="/search?onSale=true"
+                  className="btn btn-outline btn-lg"
+                >
                   Voir les promotions
                 </Link>
               </div>
@@ -57,7 +73,7 @@ const HomePage = () => {
                 <div className="w-full aspect-square lg:aspect-[4/3] bg-gradient-to-br from-primary/20 to-secondary/20 rounded-3xl flex items-center justify-center">
                   <span className="text-9xl">🛍️</span>
                 </div>
-                {/* Badge */}
+                {/* Badge de bonus visuel : attire l'attention sur la réduction immédiate du hero banner. */}
                 <div className="absolute -top-4 -right-4 bg-error text-white px-4 py-2 rounded-full font-bold shadow-lg animate-bounce">
                   -30% OFF
                 </div>
@@ -77,7 +93,9 @@ const HomePage = () => {
               </div>
               <div>
                 <p className="font-semibold">Livraison gratuite</p>
-                <p className="text-sm text-base-content/60">Commande +50 000 FCFA</p>
+                <p className="text-sm text-base-content/60">
+                  Commande +50 000 FCFA
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -95,7 +113,9 @@ const HomePage = () => {
               </div>
               <div>
                 <p className="font-semibold">Support 24/7</p>
-                <p className="text-sm text-base-content/60">Toujours disponible</p>
+                <p className="text-sm text-base-content/60">
+                  Toujours disponible
+                </p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -104,7 +124,9 @@ const HomePage = () => {
               </div>
               <div>
                 <p className="font-semibold">Multi-paiements</p>
-                <p className="text-sm text-base-content/60">Cash, Mobile Money</p>
+                <p className="text-sm text-base-content/60">
+                  Cash, Mobile Money
+                </p>
               </div>
             </div>
           </div>
@@ -124,13 +146,15 @@ const HomePage = () => {
               >
                 <div className="card-body items-center text-center p-6">
                   <div className="text-4xl mb-3">
-                    {category.icon === 'fa-mobile-alt' && '📱'}
-                    {category.icon === 'fa-tshirt' && '👕'}
-                    {category.icon === 'fa-home' && '🏠'}
-                    {category.icon === 'fa-spa' && '💄'}
+                    {category.icon === "fa-mobile-alt" && "📱"}
+                    {category.icon === "fa-tshirt" && "👕"}
+                    {category.icon === "fa-home" && "🏠"}
+                    {category.icon === "fa-spa" && "💄"}
                   </div>
                   <h3 className="font-semibold text-lg">{category.name}</h3>
-                  <p className="text-sm opacity-70">{category.productCount} produits</p>
+                  <p className="text-sm opacity-70">
+                    {category.productCount} produits
+                  </p>
                 </div>
               </Link>
             ))}
@@ -142,7 +166,9 @@ const HomePage = () => {
       <section className="py-16 bg-base-200">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-display font-bold">Produits vedettes</h2>
+            <h2 className="text-3xl font-display font-bold">
+              Produits vedettes
+            </h2>
             <Link to="/search?featured=true" className="btn btn-ghost">
               Voir tout
               <ArrowRight className="w-4 h-4 ml-2" />
@@ -156,18 +182,25 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Promotions Banner */}
+      {/* Promotions Banner
+        Bloc marketing dédié aux offres de bonus : il met en avant une réduction importante
+        et oriente clairement l'utilisateur vers les produits en promo filtrés.
+      */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="bg-gradient-to-r from-error to-error/70 rounded-3xl p-8 lg:p-12 text-white">
             <div className="max-w-xl">
-              <span className="badge badge-warning text-warning-content mb-4">Offre limitée</span>
+              <span className="badge badge-warning text-warning-content mb-4">
+                Offre limitée
+              </span>
               <h2 className="text-3xl lg:text-5xl font-display font-bold mb-4">
                 Jusqu'à -50% sur les ventes flash
               </h2>
               <p className="text-lg opacity-90 mb-6">
-                Ne manquez pas nos offres exceptionnelles. Profitez-en maintenant!
+                Ne manquez pas nos offres exceptionnelles. Profitez-en
+                maintenant!
               </p>
+              {/* CTA de conversion : mène vers la recherche des produits en promotion. */}
               <Link to="/search?onSale=true" className="btn btn-warning btn-lg">
                 Découvrir les offres
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -202,19 +235,22 @@ const HomePage = () => {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                name: 'Awa D.',
+                name: "Awa D.",
                 rating: 5,
-                comment: 'Excellent service et livraison rapide. Je recommande vivement!',
+                comment:
+                  "Excellent service et livraison rapide. Je recommande vivement!",
               },
               {
-                name: 'Koffi M.',
+                name: "Koffi M.",
                 rating: 5,
-                comment: 'Produits de qualité à des prix compétitifs. Très satisfait.',
+                comment:
+                  "Produits de qualité à des prix compétitifs. Très satisfait.",
               },
               {
-                name: 'Akua S.',
+                name: "Akua S.",
                 rating: 4,
-                comment: 'Bonne expérience d\'achat. Le service client est réactif.',
+                comment:
+                  "Bonne expérience d'achat. Le service client est réactif.",
               },
             ].map((testimonial, index) => (
               <div key={index} className="card bg-base-100 shadow-sm">
@@ -223,18 +259,22 @@ const HomePage = () => {
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${i < testimonial.rating ? 'text-warning fill-warning' : 'text-base-300'}`}
+                        className={`w-5 h-5 ${i < testimonial.rating ? "text-warning fill-warning" : "text-base-300"}`}
                       />
                     ))}
                   </div>
-                  <p className="text-base-content/80">"{testimonial.comment}"</p>
+                  <p className="text-base-content/80">
+                    "{testimonial.comment}"
+                  </p>
                   <div className="flex items-center gap-3 mt-4">
                     <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
                       {testimonial.name.charAt(0)}
                     </div>
                     <div>
                       <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-base-content/60">Cliente fidèle</p>
+                      <p className="text-sm text-base-content/60">
+                        Cliente fidèle
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -252,7 +292,8 @@ const HomePage = () => {
               Restez informé
             </h2>
             <p className="text-base-content/70 mb-6">
-              Inscrivez-vous à notre newsletter pour recevoir les dernières offres et nouveautés.
+              Inscrivez-vous à notre newsletter pour recevoir les dernières
+              offres et nouveautés.
             </p>
             <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <input
